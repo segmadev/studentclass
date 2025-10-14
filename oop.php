@@ -2,10 +2,12 @@
     class car {
         // properties
         public $color;
+
         public $model;
         public $name;
         public $speed;
         private $engine = "V8";
+        private $justforme = "private info";
         // methods/functions
         public function __construct($color, $model, $name, $speed = 100) {
             $this->color = $color;
@@ -35,4 +37,12 @@
     // echo $car1->engine; // error because engine is private
     echo $car1->move_car();
     echo "<br>";
+    $bike = new bike("blue", "Yamaha", "R15", 150);
     //echo $car1->stop_car(); // error because stop_car is protected
+    $bike->bike_stop();
+    class bike extends car {
+        
+        public function bike_stop() {
+            return $this->stop_car();
+        }
+    }
