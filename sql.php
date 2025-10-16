@@ -50,12 +50,36 @@
         }
     }
 
+    // select all users  
+    function getUsers() {
+
+        $getUsers = $this->db->prepare("SELECT * FROM users");
+        $getUsers->execute();
+        var_dump($getUsers->fetchAll());
+    }
+
+
+    function getUsersbyEmail($email) {
+        $getUsers = $this->db->prepare("SELECT * FROM users where email = ? and status = 'approved'");
+        $getUsers->execute([$email]);
+        var_dump($getUsers->fetchAll());
+    }
+
     function approveUser($userID) {
         $approve = $this->db->prepare("UPDATE users SET status = 'approved' where user_id = '$userID'");
         if($approve->execute()) {
              echo "User approved successfully";
         } else {
             echo "Error approving user";
+        }
+    }
+    //  delete user
+    function deleteUser($userID) {
+        $delete = $this->db->prepare("DELETE FROM users where user_id = ?");
+        if($delete->execute([$userID])) {
+            echo "User deleted successfully";
+        } else {
+            echo "Error deleting user";
         }
     }
         // close connection
@@ -65,6 +89,9 @@
 }
 
     $database = new Database();
+    // $database->deleteUser(2);
+    // $database->getUsersbyEmail("seyierin@gmail.com");
+    // $database->getUsers();
     // $database->getTables();
     // $database->insertUser([2, "Erin Sryi", "erin@gmail.com", password_hash("12345", PASSWORD_DEFAULT), "user"]);
     // $database->updateUser(2, ["Erin Seyi", "seyierin@gmail.com"]);
