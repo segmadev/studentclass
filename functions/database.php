@@ -5,7 +5,7 @@
         private $username = "root";
         private $password = "";
         private $database = "blog_website_db";
-        protected $db;
+        public $db;
      
         public function __construct(){
             // connect to database
