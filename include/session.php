@@ -8,6 +8,7 @@
         header("Location: signin.php");
         exit();
     }
+    
 
     require_once "functions/database.php";
     $database = new Database();

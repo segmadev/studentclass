@@ -12,3 +12,10 @@
         $auth->signin();
         // print_r($_POST);
     }
+
+    if(isset($_POST['edit_profile'])) {
+        // call edit profile function
+        $userObj = new user();
+        $userObj->updateUser(htmlspecialchars($_SESSION['user_id']));
+        // print_r($_POST);
+    }

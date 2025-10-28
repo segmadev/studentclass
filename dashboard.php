@@ -10,6 +10,7 @@
 </head>
 <body>
     Welcome to your dashbaord <b><?php echo $user['full_name']; ?></b>
-    <h3><a  style="color: red" href="?logout">Logout</a></h3>
+    <p>Email: <?php echo $user['email'] ?></p>
+    <h3><a  style="color: red" href="?logout">Logout</a> | <a href="edit.php">Edit Profile</a></h3>
 </body>
 </html>
