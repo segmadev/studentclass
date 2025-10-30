@@ -1,12 +1,19 @@
 <?php 
+    require_once "functions/formhandler.php";
     class Auth extends Database {
+        private $formHandler;
+        function __construct() {
+            parent::__construct();
+            $this->formHandler = new formHandler();
+        }
         function registerUser() {
             // vaildate form data
-            if(!isset($_POST['fullname']) || !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['confrim_password'])
-                || empty($_POST['fullname']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['confrim_password'])) {
-                echo "<div class='alert alert-danger'>All fields are required.</div>";
-                return;
-            }
+            $data = $this->formHandler->validate(['fullname', 'email', 'password', 'confrim_password']);
+            // if(!isset($_POST['fullname']) || !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['confrim_password'])
+            //     || empty($_POST['fullname']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['confrim_password'])) {
+            //     echo "<div class='alert alert-danger'>All fields are required.</div>";
+            //     return;
+            // }
             if($_POST['password'] !== $_POST['confrim_password']) {
                 echo "<div class='alert alert-danger'>Passwords do not match.</div>";
                 return;

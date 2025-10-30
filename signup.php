@@ -17,7 +17,7 @@
         </div>
         <div class="col-6 rounded p-3 shadow">
             <label for="name">Name:</label>
-        <input class="form-control" type="text" id="name" placeholder="Enter Full Name" value="<?php if(isset($_POST['fullname'])) { echo $_POST['fullname']; } ?>" name="fullname" required>
+        <input class="form-control" type="text" id="name" placeholder="Enter Full Name" value="<?php if(isset($_POST['fullname'])) { echo $_POST['fullname']; } ?>" name="fullname">
         <label for="email">Email:</label>
         <input class="form-control" type="email" id="email" name="email" value="<?php if(isset($_POST['email'])) { echo $_POST['email']; } ?>" required>
         <label for="password">Password</label>
