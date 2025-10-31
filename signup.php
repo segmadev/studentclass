@@ -23,7 +23,7 @@
         <label for="password">Password</label>
         <input type="password" name="password" class="form-control" value="<?php if(isset($_POST['password'])) { echo $_POST['password']; } ?>" id="">
         <label for="password">Confrim Password</label>
-        <input type="password" name="confrim_password" class="form-control" id="">
+        <input type="password" name="confirm_password" class="form-control" id="">
         <br>
         <?php require_once "include/isset.php";  ?>
         <br>
