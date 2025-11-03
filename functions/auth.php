@@ -1,39 +1,36 @@
 <?php 
     require_once "functions/formhandler.php";
+    require_once "functions/utilities.php";
     class Auth extends Database {
         private $formHandler;
+        private $utilities;
         function __construct() {
             parent::__construct();
             $this->formHandler = new formHandler();
+            $this->utilities = new Utilities();
         }
         function registerUser() {
             // vaildate form data
             $data = $this->formHandler->validate(['fullname', 'email', 'password', 'confirm_password']);
             if($this->formHandler->isError) return;
             // check email in database 
-            $check = $this->db->prepare("SELECT * FROM users WHERE email = ?");
-            $check->execute([$data['email']]);
-            // if(count($check->fetchAll()) > 0) {
-            //     echo "<div class='alert alert-danger'>Email already exists.</div>";
-            //     return; 
-            // }
-            if($check->rowCount() > 0) {
-                echo "<div class='alert alert-danger'>Email already exists.</div>";
+            $check = $this->select("users", "email = ?", [$data['email']], method: "rowCount");
+            if($check > 0) {
+                echo $this->utilities->message("Email already exists.", 'error');
                 return;
             }
             // insert user into database
             $userData = [
-                htmlspecialchars($data['fullname']),
-                $data['email'],
-                $data['password']
+                "full_name"=>$data['fullname'],
+                "email"=>$data['email'],
+                "password_hash"=>$data['password']
             ];
-            
-             $insertUser = $this->db->prepare("INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)");
-            if($insertUser->execute($userData)) {
-                echo "<div class='alert alert-success'>User registered successfully.</div>";
+
+            if($this->insert("users", $userData)) {
+                echo $this->utilities->message("User registered successfully.");
             } else {
-                echo "<div class='alert alert-danger'>Error registering user.</div>";
-        }
+                echo $this->utilities->message("Error registering user.", 'error');
+            }
     }
 
     function signin() {

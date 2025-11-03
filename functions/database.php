@@ -24,10 +24,51 @@
             }
         }
 
+        // select
+        function select($from, $where, $params,  $select = "*", $method = "fetch"){
+            $query = $this->db->prepare("SELECT $select FROM $from WHERE $where");
+            $query->execute($params);
+            switch($method){
+                case 'fetch':
+                case 'detail':
+                case 'single':
+                    return $query->fetch(PDO::FETCH_ASSOC);
+                case 'all':
+                case 'fetchAll':
+                case 'multiple':
+                case 'list':
+                case 'rows':
+                    return $query->fetchAll(PDO::FETCH_ASSOC);
+                case 'rowCount':
+                case 'count':
+                    return $query->rowCount();
+                default:
+                    return $query->rowCount();
+            }
+        }
+        // insert
+        function insert($into, $values) {
+            $placeholders = rtrim(str_repeat('?, ', count($values)), ', ');
+            // var_dump($values);
+            $columns = "";
+            $data = [];
+            foreach($values as $key => $value){
+                $columns .= "$key, ";
+                $data[] = $value;
+            }
+            $columns = rtrim($columns, ', ');
+             $query = $this->db->prepare("INSERT INTO $into ($columns) VALUES ($placeholders)");
+            return $query->execute($data);
+        }
+        // update
+        // delete
+
 
         // close connection
         function __destruct() {
             $this->db = null;
         }
+
+
     }
         ?>
