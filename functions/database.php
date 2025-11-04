@@ -61,8 +61,23 @@
             return $query->execute($data);
         }
         // update
-        // delete
+        function update($what, $values, $where) {
+            $data = [];
+            $setClause = "";
+            foreach($values as $key => $value){
+                $setClause .= "$key = ?, ";
+                $data[] = $value;
+            }
+            $setClause = rtrim($setClause, ', ');
+            $update = $this->db->prepare("UPDATE $what SET $setClause WHERE $where");
+            return $update->execute($data);
 
+        }
+        // delete
+        function delete($from, $where, $params = []) {
+            $query = $this->db->prepare("DELETE FROM $from WHERE $where");
+            return $query->execute($params);
+        }
 
         // close connection
         function __destruct() {
